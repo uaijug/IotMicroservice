@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.uaijug.iotmicroservice.model.domain.Sensor;
+import br.com.uaijug.iotmicroservice.model.domain.SensorTO;
 import br.com.uaijug.iotmicroservice.service.SensorService;
 
 @RestController
@@ -25,5 +26,11 @@ public class SensorController {
 	public String getActivatedCode(@PathVariable("id") Long id) {
 		return sensorService.getActivatedCode(id);
 	}	
+	
+	@RequestMapping("/sensor")
+	public SensorTO getNowTemperature() {
+		return sensorService.getSensorInfosByArduino();
+	}	
+	
 	
 }
