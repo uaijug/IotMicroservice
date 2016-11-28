@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -25,17 +24,9 @@ public class SensorService {
 	@Autowired
 	private SensorRepository sensorRepository;
 
-	public String getActivatedCode(Long id) {
-		Sensor sensor = sensorRepository.findOne(id);
-		UUID resultId = UUID.randomUUID();
-
-		String activatedCode = resultId + sensor.getTemperature() + sensor.getHumidity();
-		return activatedCode;
-	}
-
 	public SensorTO getSensorInfosByArduino() {
 		RestTemplate restTemplate = new RestTemplate();
-		SensorTO sensorTO = restTemplate.getForObject("http://192.168.0.188:8083", SensorTO.class);
+		SensorTO sensorTO = restTemplate.getForObject("http://192.168.15.188:8083", SensorTO.class);
 		
 		Sensor sensor = new Sensor();
 		sensor.setTemperature(sensorTO.getTemperature());
@@ -66,12 +57,12 @@ public class SensorService {
 				String[] retult = line.split("\\|");
 				String temperature = retult[0];
 				String humidity = retult[1];
-				log.info("Temperatura = " + retult[0] + " | Umidade = " + retult[1]);
-				sensorRepository.save(new Sensor(temperature, humidity));
+				String sensorId = retult[3];
+				log.info("Temperatura = " +temperature + " | Umidade = " + humidity + " | Id do Sensor = " + sensorId);
+				//sensorRepository.save(new Sensor(temperature, humidity));
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

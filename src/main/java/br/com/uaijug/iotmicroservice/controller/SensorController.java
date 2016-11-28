@@ -3,7 +3,6 @@ package br.com.uaijug.iotmicroservice.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,11 +20,6 @@ public class SensorController {
 	public List<Sensor> temperature() {
 		return sensorService.getTemperatures();
 	}
-
-	@RequestMapping("/activatedCode/{id}")
-	public String getActivatedCode(@PathVariable("id") Long id) {
-		return sensorService.getActivatedCode(id);
-	}	
 	
 	@RequestMapping("/sensor")
 	public SensorTO getNowTemperature() {
